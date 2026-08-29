@@ -22,7 +22,7 @@
         body {
             margin: 0;
             padding: 0;
-  background-image: url("https://socrarius-tool.com/BookofTruth/back.jpg"); /* 画像のファイルパスかURLを指定 */
+  background-image: url("https://socrarius-tool.com/Illustration/star.jpg"); /* 画像のファイルパスかURLを指定 */
   background-size: cover;                        /* 画面の縦横比に合わせて隙間なく引き伸ばす */
   background-position: center center;            /* 画像の中心が画面の真ん中にくるように配置 */
   background-repeat: no-repeat;                  /* 画像がタイル状に繰り返されるのを防ぐ */
@@ -40,7 +40,7 @@
         /* 🟣 1. 一番上のタイトルBOX */
         .mage-header-box {
             background: rgba(30, 10, 50, 0.7);
-            border: 2px solid #b19cd9;
+            border: 2px solid #4A2E65;
             border-radius: 8px;
             padding: 10px 140px;
             margin-bottom: 20px;
@@ -133,7 +133,7 @@
 
     <!-- 1. 最上部のタイトル -->
     <div class="mage-header-box">
-        <h1>THE MAGE'S HIDEOUT</h1>
+        <h1>INSIDE THE SPACESHIP</h1>
     </div>
 
     <!-- 2. 女の子のループ動画BOX // ✨少年に改造  -->
@@ -145,42 +145,126 @@
     <!-- 3. ADV風メッセージBOX -->
     <div class="adv-textbox" id="advBox" onclick="progressText()">
         <!--<div class="adv-speaker" id="speakerName">アミ</div>-->
-        <p class="adv-text" id="advText">あれ？　見つかっちゃった……<br>よく、この隠れ家を見つけられたね。</p>
+        <p class="adv-text" id="advText">ん……？<br>誰、君？<br>シップの人じゃないよね？</p>
         <div class="adv-next-hint">▼</div>
     </div>
 
+    <!-- ✨解説画像配置 -->
+<div id="advImageContainer" style="position: absolute; top: 147px; right: 50px; z-index: 100; display: none;">
+  <img id="advImage" src="" alt="解説" style="width: 450px; max-width: 45vw; height: auto; border-radius: 8px; border: 1px solid rgba(0, 242, 254, 0.6); box-shadow: 0 0 20px rgba(0, 242, 254, 0.6); display: block;">
+</div>
+
 <script>
-        // 🌸 ADV風テキストのシナリオデータ（\nでちゃんと改行されるよ！）
+        // ✨ ADVパートスタート～♪
         const story = [
-            { text: "あれ？　見つかっちゃった……\nよく、この隠れ家を見つけられたね。" },
-            { text: "サブシステムの奥底……\n気づかれないように魔法障壁も展開していたんだけど……" },
-            { text: "正規ルートで辿り着いたのなら、君の推理力は大したものだよ。" },
-            { text: "「MT Extra」なんてフォントは滅多に使わないものね。" },
-            { text: "お勧めフォントの最後に記述されている違和感……\n何かあると察せられたって本当にすごいよ。" },
-            { text: "きっと、「Font list」に記述しておいた文章も読めたんでしょ？" },
-            { text: "それとも裏口から転移してきたのかな？" },
-            { text: "まあ、それもありかな～\n世の中、方法はいくらでもあるものね。" },
-            { text: "ここまで辿り着いた君にこの呪文を教えてあげる。" },
-            { text: "でも、これはこれだけじゃ意味を成さないの……" },
-            { text: "この呪文はSocrariusの中に分解されて隠されているんだって。" },
-            { text: "全部を探して正しい組み合わせで呪文を唱えると……" },
-            { text: "お話はここまで。\nReturn Magic: history.back" }
+            { text: "ん……？\n誰、君？\nシップの人じゃないよね？" },
+            { text: "コアファイターが着艦したって話も聞いてないし……" },
+            { text: "まさかゲートを通って来たの？" },
+            { text: "よくあんな隙間を見つけたね。" },
+            { text: "偶然？\nそれとも直感？" },
+            { text: "違和感を察知したのならニュータイプになれるよ。" },
+            { text: "ここまで来た君に……" },
+            { text: "僕が教えられることは少ないんだけど……" },
+            { text: "え？\nループ動画が上手く作れなくて困ってるの？" },
+            { text: "それなら僕の得意分野だから簡単に作れる方法を教えるよ。" },
+            { text: "一つはすごくシンプル。\n動画を複製して逆再生。" },
+            { text: "でも、この方法だと違和感が出るケースが多いよね。" },
+            { text: "本当に綺麗に仕上げたいなら自力で差分を全部描くなんだけど……" },
+            { text: "はは。\nそれは時間がかかり過ぎるし、絵心と編集技術が無いと無理だよね。" },
+            { text: "少しブレが出るんだけど……\n逆再生や手描き不要で動画をループさせる方法はね……" },
+            // 🌸★ ここで解説画像を登場させる！ ★🌸
+        { 
+            text: "動画の最初と最後に逆フェードをかけるんだよ。",
+            image: "https://socrarius-tool.com/Illustration/explanation.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "やり方は本当に簡単♪",
+            image: "https://socrarius-tool.com/Illustration/explanation.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "動画の最初の1枚目をコピーして始まりと終わりに2秒のフェードをかければOK。",
+            image: "https://socrarius-tool.com/Illustration/explanation.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "ただ、これで動画を書きだした時に始まりと終わりの2秒ぐらいが止まってるんだ。",
+            image: "https://socrarius-tool.com/Illustration/explanation.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "だから書きだした動画を再度編集して、始まりと終わりをカット！",
+            image: "https://socrarius-tool.com/Illustration/explanation.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "ループさせて違和感がなければ書き出し♪",
+            image: "https://socrarius-tool.com/Illustration/explanation.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "違和感があれば切り取り場所を微調整だよ。",
+            image: "https://socrarius-tool.com/Illustration/explanation.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "これで大体は上手くいく。",
+            image: "https://socrarius-tool.com/Illustration/explanation.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "動画をコピーして静止画を一枚作成。\nフェードをかけて書き出し\n書き出した動画の始まりと終わりの2秒を削除して再度書き出し。",
+            image: "https://socrarius-tool.com/Illustration/explanation.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "これだけだから、慣れれば10分以内に終わるよ♪",
+            image: "https://socrarius-tool.com/Illustration/explanation.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "一応、普通に動画の最初と最後にフェードをかけて繋ぐ方法もあるよ。",
+            image: "https://socrarius-tool.com/Illustration/explanation2.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "やり方は本当に簡単で動画を2回コピーしてそれぞれのつなぎ目に1秒ぐらいのフェードをかけて書き出し。",
+            image: "https://socrarius-tool.com/Illustration/explanation2.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "書きだした動画を再編集してフェード部分をスタートとエンド地点にして他を切り取れば完成♪",
+            image: "https://socrarius-tool.com/Illustration/explanation2.png" // ←ここに解説画像のURLを指定！
+        },
+        { 
+            text: "この方法ならスマホの編集ソフトで寝ながらでもできるよ。",
+            image: "https://socrarius-tool.com/Illustration/explanation2.png" // ←ここに解説画像のURLを指定！
+        },
+            { text: "でも、僕のお勧めは最初に教えた方。" },
+            { text: "違和感はほとんどなくなるし、PCで編集なら半透過動画とかも作れるしね。" },
+            { text: "僕が教えれるのはこのぐらいかな？" },
+            { text: "やり方は一つじゃないし、全ては発想次第だよ。" },
+            { text: "じゃあ、そろそろシップの正規乗組員じゃない君はゲートで元いた場所に帰った方がいいと思う。" },
+            { text: "不法侵入だし、艦長に見つかると怖いから……" },
+            { text: "じゃあね。\nシップの人以外の人と話せて楽しかったよ。" }
         ];
 
         let currentIndex = 0;
-        const textElem = document.getElementById("advText");
+    const textElem = document.getElementById("advText");
+    const imgContainer = document.getElementById("advImageContainer");
+    const imgElem = document.getElementById("advImage");
 
-        function progressText() {
-            currentIndex++;
-            if (currentIndex < story.length) {
-                // 次のセリフを表示（white-space: pre-wrap が効いてるので \n で改行されます！）
-                textElem.textContent = story[currentIndex].text;
+    function progressText() {
+        currentIndex++;
+        if (currentIndex < story.length) {
+            const currentStory = story[currentIndex];
+            
+            // 1. テキスト更新
+            textElem.textContent = currentStory.text;
+
+            // 2. 画像の表示・非表示判定（If文魔法！）
+            if (currentStory.image) {
+                imgElem.src = currentStory.image;
+                imgContainer.style.display = "block"; // 画像があれば表示！
             } else {
-                // 🌸 セリフがすべて終わったら元の場所へ帰還！
-                window.location.href = "https://socrarius-tool.com/favorite_fonts/";
+                imgContainer.style.display = "none";  // 画像が無ければ自動で消す！
             }
+
+        } else {
+            // ✨ セリフがすべて終わったら元の場所へ帰還！
+            window.location.href = "https://socrarius-tool.com/photo_48-k_yui_nanami/";
         }
-    </script>
+    }
+</script>
 
 </body>
 </html>
